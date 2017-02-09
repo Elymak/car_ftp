@@ -13,7 +13,9 @@ import java.net.Socket;
 
 import bc_om.car_ftp.commands.Command;
 import bc_om.car_ftp.commands.ListCommand;
+import bc_om.car_ftp.commands.NotImplementedCommand;
 import bc_om.car_ftp.commands.PortCommand;
+import bc_om.car_ftp.commands.PwdCommand;
 import bc_om.car_ftp.commands.SystCommand;
 import bc_om.car_ftp.users.User;
 
@@ -61,25 +63,14 @@ public class CommandInterpreter {
 		String[] decomposed_command = command.split(" ");
 		switch(decomposed_command[0]){
 			case "ACCT":
-				this.dos.write("202 Not Implemented\n".getBytes());
-				break;
 			case "CWD":
-				this.dos.write("202 Not Implemented\n".getBytes());
-				break;
 			case "CDUP":
-				this.dos.write("202 Not Implemented\n".getBytes());
-				break;
 			case "QUIT":
-				this.dos.write("221 GoodBye\n".getBytes());
-				break;
 			case "RETR":
-				this.dos.write("202 Not Implemented\n".getBytes());
-				break;
 			case "STOR":
-				this.dos.write("202 Not Implemented\n".getBytes());
-				break;
 			case "DELE":
-				this.dos.write("202 Not Implemented\n".getBytes());
+			case "MKD":
+				this.command = new NotImplementedCommand(command, user, socket, data_socket);
 				break;
 			case "SYST":
 				this.command = new SystCommand(command, user, socket, data_socket);
@@ -90,8 +81,8 @@ public class CommandInterpreter {
 			case "LIST":
 				this.command = new ListCommand(decomposed_command[1], user, socket, data_socket, this);
 				break;
-			case "MKD":
-				this.dos.write("202 Not Implemented\n".getBytes());
+			case "PWD":
+				this.command = new PwdCommand(command, user, socket, data_socket);
 				break;
 			default:
 				break;
