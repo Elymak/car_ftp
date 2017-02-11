@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -14,7 +15,7 @@ public class PortCommand extends Command{
 
 	private CommandInterpreter c;
 	
-	public PortCommand(String command, User user, Socket s,  DatagramSocket ds, CommandInterpreter c) {
+	public PortCommand(String command, User user, Socket s,  ServerSocket ds, CommandInterpreter c) {
 		super(command, user, s, ds);
 		this.c  = c;
 	}
@@ -28,20 +29,21 @@ public class PortCommand extends Command{
 		c.setPort(port);
 		try {
 			c.setIpv4((Inet4Address) InetAddress.getByName(addr));
+			
+			try {
+				super.dos.write("200 PORT command successful.\n".getBytes());
+			} catch (IOException e) {
+				System.out.println("[ERROR] Cannot send port command success");
+			}
 		} catch (UnknownHostException e) {
 			System.out.println("[ERROR] Cannot set Ipv4 address");
 			try {
-				super.dos.write("501 Syntax Error in parameters or arguments".getBytes());
+				super.dos.write("501 Syntax Error in parameters or arguments\n".getBytes());
 			} catch (IOException e1) {
 				System.out.println("[ERROR] Cannot send error Ipv4 setting");
 			}
 		}
 		
-		try {
-			super.dos.write("200 PORT command successful.".getBytes());
-		} catch (IOException e) {
-			System.out.println("[ERROR] Cannot send port command success");
-		}
 		
 		
 	}

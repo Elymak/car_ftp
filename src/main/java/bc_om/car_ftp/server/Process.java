@@ -3,12 +3,9 @@ package bc_om.car_ftp.server;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.DatagramSocket;
+import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.List;
 
 import bc_om.car_ftp.csv.CSVReader;
@@ -23,7 +20,7 @@ import bc_om.car_ftp.users.User;
 public class Process extends Thread {
 
 	private Socket s;
-	private DatagramSocket data_transport_socket;
+	private ServerSocket data_transport_socket;
 
 	private BufferedReader br;
 	private DataOutputStream dos;
@@ -34,12 +31,12 @@ public class Process extends Thread {
 	public Process(Socket socket) {
 		this.s = socket;
 		try {
-			this.data_transport_socket = new DatagramSocket();
-		} catch (SocketException e1) {
-			System.out
-					.println("[ERROR] Failed to create data transport socket");
+			this.data_transport_socket = new ServerSocket(0);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-
+		
 		this.users = CSVReader.getUsers();
 
 		try {
@@ -164,11 +161,11 @@ public class Process extends Thread {
 		this.users = users;
 	}
 
-	public DatagramSocket getData_transport_socket() {
+	public ServerSocket getData_transport_socket() {
 		return data_transport_socket;
 	}
 
-	public void setData_transport_socket(DatagramSocket data_transport_socket) {
+	public void setData_transport_socket(ServerSocket data_transport_socket) {
 		this.data_transport_socket = data_transport_socket;
 	}
 

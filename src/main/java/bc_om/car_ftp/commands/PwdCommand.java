@@ -2,6 +2,7 @@ package bc_om.car_ftp.commands;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 import bc_om.car_ftp.users.User;
@@ -9,7 +10,7 @@ import bc_om.car_ftp.users.User;
 public class PwdCommand extends Command{
 
 	public PwdCommand(String command, User user, Socket s,
-			DatagramSocket data_socket) {
+			ServerSocket data_socket) {
 		super(command, user, s, data_socket);
 	}
 

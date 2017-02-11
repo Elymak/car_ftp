@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.DatagramSocket;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 import bc_om.car_ftp.users.User;
@@ -46,7 +47,7 @@ public abstract class Command {
 	/**
 	 * socket de transfert de fichiers
 	 */
-	protected DatagramSocket data_socket;
+	protected ServerSocket data_socket;
 	
 	
 	/**
@@ -59,7 +60,7 @@ public abstract class Command {
 	 */
 	protected DataOutputStream dos; 
 	
-	public Command (String command, User user, Socket s, DatagramSocket data_socket){
+	public Command (String command, User user, Socket s, ServerSocket data_socket){
 		this.command = command;
 		this.user = user;
 		this.s = s;

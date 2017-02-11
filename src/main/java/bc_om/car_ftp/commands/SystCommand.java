@@ -2,13 +2,14 @@ package bc_om.car_ftp.commands;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 import bc_om.car_ftp.users.User;
 
 public class SystCommand extends Command{
 
-	public SystCommand(String command, User user, Socket s, DatagramSocket ds) {
+	public SystCommand(String command, User user, Socket s, ServerSocket ds) {
 		super(command, user, s, ds);
 	}
 
