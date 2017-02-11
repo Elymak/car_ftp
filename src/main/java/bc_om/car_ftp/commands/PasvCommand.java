@@ -29,10 +29,9 @@ public class PasvCommand extends Command {
 			Inet4Address addr = (Inet4Address) InetAddress.getLocalHost();
 			String Ipv4 = addr.getCanonicalHostName().replace(".", ",");
 			int port = data_socket.getLocalPort();
-			System.out.println("[INFO] ipv4 = " + Ipv4 + "," + port/256 + "," + port%256);
 			
-			super.dos.write(("227 Passive Mode Activated. " + Ipv4 + "," + port/256 + "," + port%256).getBytes());
-			
+			super.dos.write(("227 Passive Mode Activated. " + Ipv4 + "," + port/256 + "," + port%256 + "\n").getBytes());
+			ci.accept();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

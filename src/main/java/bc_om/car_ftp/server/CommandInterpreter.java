@@ -101,10 +101,19 @@ public class CommandInterpreter {
 	public void accept(){
 		try {
 			this.data_socket = data_transport_socket.accept();
+			System.out.println("[INFO] DataConnection established with user " + user.getLogin());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public Socket getData_socket() {
+		return data_socket;
+	}
+
+	public void setData_socket(Socket data_socket) {
+		this.data_socket = data_socket;
 	}
 
 	public int getPort() {

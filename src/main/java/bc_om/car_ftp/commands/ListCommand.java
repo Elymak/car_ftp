@@ -1,5 +1,6 @@
 package bc_om.car_ftp.commands;
 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -22,25 +23,24 @@ public class ListCommand extends Command{
 	@Override
 	public void execute() {
 		File directory = new File("data/root"+ super.user.getCurrent_directory());
-		System.out.println("[INFO] " + directory.getAbsolutePath());
-		
-		String[] listFiles = directory.list();
-		StringBuilder builder = new StringBuilder();
-		for(int i = 0; i < listFiles.length ;i++){
-			builder.append(listFiles[i] + "\r\n");
-		}
-
+		System.out.println("[INFO] Listing directory : " + directory.getAbsolutePath());
 		try {
+			DataOutputStream output = new DataOutputStream(c.getData_socket().getOutputStream());
+			
+			String[] listFiles = directory.list();
+			StringBuilder builder = new StringBuilder();
+			for(int i = 0; i < listFiles.length ;i++){
+				builder.append(listFiles[i] + "\r\n");
+			}
+			
 			super.dos.write("150 Here comes the directory listing\n".getBytes());
-			DatagramPacket packet = new DatagramPacket(builder.toString().getBytes(), builder.toString().length(), c.getIpv4(), c.getPort());
-//			data_socket.send(packet);
+			output.write((builder.toString() + "\n").getBytes());
 			super.dos.write("226 Directory send OK.\n".getBytes());
 			
-		} catch (IOException e) {
-			System.out.println("[ERROR] Cannot write into socket from command");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-		
-		
 	}
 
 }
