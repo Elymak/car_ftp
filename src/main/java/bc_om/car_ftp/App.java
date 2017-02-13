@@ -1,6 +1,9 @@
 package bc_om.car_ftp;
 
 import java.io.IOException;
+
+import bc_om.car_ftp.log.ConsoleLogger;
+import bc_om.car_ftp.log.LogType;
 import bc_om.car_ftp.server.FTPServer;
 
 /**
@@ -17,7 +20,7 @@ public class App
 			server.start();
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("[ERROR] Failed to create FTP Server");
+			ConsoleLogger.log(LogType.ERROR, "Failed to create FTP Server");
 		}
     }
 

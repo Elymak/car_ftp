@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import bc_om.car_ftp.log.ConsoleLogger;
+import bc_om.car_ftp.log.LogType;
 import bc_om.car_ftp.users.User;
 
 public class CwdCommand extends Command{
@@ -26,7 +28,7 @@ public class CwdCommand extends Command{
 			path += directory_wanted;
 		} else {
 			/* sinon on demande à l'utilisateur de rentrer son ré&pertoire */
-			System.out.println("[WARNING] directory is empty or null");
+			ConsoleLogger.log(LogType.WARNING, "Directory is empty or null");
 			try {
 				super.dos.write("(remote-directory)".getBytes());
 				directory_wanted = super.br.readLine();
@@ -39,7 +41,7 @@ public class CwdCommand extends Command{
 			} catch (IOException e) {
 				
 				/* log de l'erreur */				
-				System.out.println("[ERROR] Cannot send usage of command CWD");
+				ConsoleLogger.log(LogType.ERROR, "Cannot send usage of command CWD");
 			}
 			path += directory_wanted;
 			
@@ -55,10 +57,10 @@ public class CwdCommand extends Command{
 			String server_root = server_file.getCanonicalPath();
 			String f_name = f.getCanonicalPath();
 			
-			System.out.println("[INFO] Test for non absolute path...");
+			ConsoleLogger.log(LogType.INFO, "Test for non absolute path...");
 			if(f_name.length() < server_root.length()){
 				/* test si le chemin est moins grand que le chemin de l'utilisateur */
-				System.out.println("[ERROR] User does not have permissions for this directory");
+				ConsoleLogger.log(LogType.ERROR, "User does not have permissions for this directory");
 				super.dos.write("550 You do not have permissions for this directory\r\n".getBytes());
 				
 			} else {
@@ -72,7 +74,7 @@ public class CwdCommand extends Command{
 					
 					/* test di le fichier existe et est un répertoire */
 					if(f.exists() && f.isDirectory()){
-						System.out.println("[INFO] Ok for this directory");
+						ConsoleLogger.log(LogType.INFO, "Ok for this directory");
 						
 						/* on set le nouveau current directory */
 						user.setCurrent_directory(f.getCanonicalPath().substring(server_root.length()).replace("\\", "/"));
@@ -84,7 +86,7 @@ public class CwdCommand extends Command{
 						} catch (IOException e) {
 							
 							/* log de l'erreur */
-							System.out.println("[ERROR] Cannot send 250");
+							ConsoleLogger.log(LogType.ERROR, "Cannot send 250");
 						}
 						
 					} else {
@@ -93,12 +95,12 @@ public class CwdCommand extends Command{
 						f = new File(path);
 						f_name = f.getCanonicalPath();
 						
-						System.out.println("[INFO] Le fichier n'exist pas ou n'est pas un répertoire\n"
-										 + "[INFO] Test for absolute path...");
+						ConsoleLogger.log(LogType.INFO, "Le fichier n'exist pas ou n'est pas un répertoire");
+						ConsoleLogger.log(LogType.INFO, "Test for absolute path...");
 						
 						if(f_name.length() < server_root.length()){
 							/* test si le chemin est moins grand que le chemin du server root */
-							System.out.println("[ERROR] User does not have permissions for this directory");
+							ConsoleLogger.log(LogType.ERROR, "User does not have permissions for this directory");
 							super.dos.write("550 You do not have permissions for this directory\r\n".getBytes());
 							
 						}else {
@@ -107,7 +109,7 @@ public class CwdCommand extends Command{
 								
 								/* si le fichier exist et est un repertoire */
 								if(f.exists() && f.isDirectory()){
-									System.out.println("[INFO] Ok for this directory");
+									ConsoleLogger.log(LogType.INFO, "Ok for this directory");
 									
 									/* on set le nouveau current directory */
 									user.setCurrent_directory(f.getCanonicalPath().substring(server_root.length()).replace("\\", "/"));
@@ -118,45 +120,45 @@ public class CwdCommand extends Command{
 										super.dos.write("250 Directory successfully changed\r\n".getBytes());
 									} catch (IOException e) {
 										/* log de l'erreur */
-										System.out.println("[ERROR] Cannot send 250");
+										ConsoleLogger.log(LogType.ERROR, "Cannot send 250");
 									}
 								}
 							} else {
 								
 								/* sinon on envoi une errur, fichier inaccessible */
-								System.out.println("[ERROR] Cannot access to this directory");
+								ConsoleLogger.log(LogType.ERROR, "Cannot access to this directory");
 								try {
 									super.dos.write("550 Failed to change directory\r\n".getBytes());
 								} catch (IOException e) {
-									System.out.println("[ERROR] Cannot send 550");
+									ConsoleLogger.log(LogType.ERROR, "Cannot send 550");
 								}
 							}
 						}
 					}
 					
 					/* log repetoire courant */
-					System.out.println("[INFO] Current directory is now : "  + user.getCurrent_directory());
+					ConsoleLogger.log(LogType.INFO, "Current directory is now : "  + user.getCurrent_directory());
 				} else {
 					/* log erreur permission fichier */
-					System.out.println("[ERROR] User does not have permissions for this directory");
+					ConsoleLogger.log(LogType.ERROR, "User does not have permissions for this directory");
 					super.dos.write("550 You do not have permissions for this directory\r\n".getBytes());
 				}
 			}
 			
 		} catch (IOException e1) {
 			/* log fichier inexsitant exception */
-			System.out.println("[ERROR] Cannot read this file");
+			ConsoleLogger.log(LogType.ERROR, "Cannot read this file");
 		} catch (StringIndexOutOfBoundsException e2){
 			/* log si une exception est levée lors de la vérification des chemins absolu par rapport au root
 			 * si on a uen excpetion, alors l'utilisateur tente d'accéder au dossier du serveur
 			 */
 			
-			System.out.println("[LOG] No permssions for this directory");
+			ConsoleLogger.log(LogType.INFO, "No permssions for this directory");
 			
 			try {
 				super.dos.write("550 You have no permissions access to this directory\r\n".getBytes());
 			} catch (IOException e) {
-				System.out.println("[ERROR] Cannot send error");
+				ConsoleLogger.log(LogType.ERROR, "Cannot send error");
 			}
 		}
 		
