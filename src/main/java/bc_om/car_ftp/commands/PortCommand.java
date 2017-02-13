@@ -7,6 +7,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import bc_om.car_ftp.log.ConsoleLogger;
+import bc_om.car_ftp.log.LogType;
 import bc_om.car_ftp.server.CommandInterpreter;
 import bc_om.car_ftp.users.User;
 
@@ -28,11 +30,11 @@ public class PortCommand extends Command{
 		try {
 			c.setData_socket(new Socket(addr, port));
 		} catch (IOException e2) {
-			System.out.println("[ERROR] Cannot connect to this address");
+			ConsoleLogger.log(LogType.ERROR, "Cannot connect to this address");
 			try {
 				super.dos.write("530 Session not opened\r\n".getBytes());
 			} catch (IOException e) {
-				System.out.println("[ERROR] Cannot send port command failure");
+				ConsoleLogger.log(LogType.ERROR, "Cannot send port command failure");
 			}
 		}
 		
@@ -43,14 +45,14 @@ public class PortCommand extends Command{
 			try {
 				super.dos.write("200 PORT command successful.\n".getBytes());
 			} catch (IOException e) {
-				System.out.println("[ERROR] Cannot send port command success");
+				ConsoleLogger.log(LogType.ERROR, "Cannot send port command success");
 			}
 		} catch (UnknownHostException e) {
-			System.out.println("[ERROR] Cannot set Ipv4 address");
+			ConsoleLogger.log(LogType.ERROR, "Cannot set Ipv4 address");
 			try {
 				super.dos.write("501 Syntax Error in parameters or arguments\n".getBytes());
 			} catch (IOException e1) {
-				System.out.println("[ERROR] Cannot send error Ipv4 setting");
+				ConsoleLogger.log(LogType.ERROR, "Cannot send error Ipv4 setting");
 			}
 		}
 		

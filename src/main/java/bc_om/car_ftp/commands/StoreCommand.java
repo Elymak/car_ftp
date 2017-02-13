@@ -13,6 +13,8 @@ import java.net.Socket;
 
 import org.objenesis.instantiator.basic.NewInstanceInstantiator;
 
+import bc_om.car_ftp.log.ConsoleLogger;
+import bc_om.car_ftp.log.LogType;
 import bc_om.car_ftp.server.CommandInterpreter;
 import bc_om.car_ftp.users.User;
 
@@ -37,8 +39,9 @@ public class StoreCommand extends Command{
  			500, 501, 421, 530
 		 * 
 		 */
-		System.out.println("[LOG] STOR command : " + command);
-		System.out.println("[LOG] STORE : data/root" + user.getCurrent_directory() + "/"+  command);
+		
+		ConsoleLogger.log(LogType.INFO, "STOR command : " + command);
+		ConsoleLogger.log(LogType.INFO, "STORE : data/root" + user.getCurrent_directory() + "/"+  command);
 		
 		/* création du fichier */
 		File f = new File("data/root" + user.getCurrent_directory() + "/" + command);
@@ -65,7 +68,7 @@ public class StoreCommand extends Command{
 			
 			/* tant qu'on recoit */
 			while(s != null){
-				System.out.println("[LOG] string received : " + s);
+				ConsoleLogger.log(LogType.INFO, "string received : " + s);
 				
 				/* on écrit */
 				pw.println(s);
@@ -79,7 +82,7 @@ public class StoreCommand extends Command{
 			super.dos.write("250 File Transfert complete\r\n".getBytes());
 			
 		} catch (IOException e) {
-			System.out.println("[ERROR] Cannot send 125");
+			ConsoleLogger.log(LogType.ERROR, "Cannot send 125");
 		}
 		
 		

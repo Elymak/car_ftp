@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import bc_om.car_ftp.log.ConsoleLogger;
+import bc_om.car_ftp.log.LogType;
 import bc_om.car_ftp.users.User;
 
 public class SystCommand extends Command{
@@ -17,7 +19,7 @@ public class SystCommand extends Command{
 		try {
 			super.dos.write("202 UNIX\n".getBytes());
 		} catch (IOException e) {
-			System.out.println("[ERROR] Cannot write from SystCommand");
+			ConsoleLogger.log(LogType.ERROR, "Cannot write from SystCommand");
 		}
 	}
 

@@ -6,6 +6,8 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import bc_om.car_ftp.log.ConsoleLogger;
+import bc_om.car_ftp.log.LogType;
 import bc_om.car_ftp.server.CommandInterpreter;
 import bc_om.car_ftp.users.User;
 
@@ -31,7 +33,7 @@ public class PasvCommand extends Command {
 			ci.accept();
 			
 		} catch (IOException e) {
-			System.out.println("[ERROR] Cannot set passive mode");
+			ConsoleLogger.log(LogType.ERROR, "Cannot set passive mode");
 		}
 		
 		

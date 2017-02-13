@@ -18,6 +18,8 @@ import bc_om.car_ftp.commands.PwdCommand;
 import bc_om.car_ftp.commands.RenameFileCommand;
 import bc_om.car_ftp.commands.StoreCommand;
 import bc_om.car_ftp.commands.SystCommand;
+import bc_om.car_ftp.log.ConsoleLogger;
+import bc_om.car_ftp.log.LogType;
 import bc_om.car_ftp.users.User;
 
 public class CommandInterpreter {
@@ -50,14 +52,14 @@ public class CommandInterpreter {
 			this.dos = new DataOutputStream(s.getOutputStream());
 			
 		} catch (IOException e) {
-			System.out.println("[ERROR] Failed to get streams in command interpreter constructor");
+			ConsoleLogger.log(LogType.ERROR, "Failed to get streams in command interpreter constructor");
 			
 		}
 		
 	}
 	
 	public void interpretCommand(String command) throws IOException{
-		System.out.println("[COMMAND] " + user.getLogin() + " > " + command);
+		ConsoleLogger.log(LogType.INFO, user.getLogin() + " > " + command);
 		
 		if(command == null)
 			throw new IOException("Commande null");
@@ -106,15 +108,15 @@ public class CommandInterpreter {
 				break;
 		}
 		this.command.execute();
-		System.out.println("[LOG] --------------------------------");
+		ConsoleLogger.log(LogType.INFO, "--------------------------------");
 	}
 	
 	public void accept(){
 		try {
 			this.data_socket = data_transport_socket.accept();
-			System.out.println("[INFO] DataConnection established with user " + user.getLogin());
+			ConsoleLogger.log(LogType.INFO, "DataConnection established with user " + user.getLogin());
 		} catch (IOException e) {
-			System.out.println("[ERROR] Cannot accept connection with FTP CLient");
+			ConsoleLogger.log(LogType.ERROR, "Cannot accept connection with FTP CLient");
 		}
 	}
 

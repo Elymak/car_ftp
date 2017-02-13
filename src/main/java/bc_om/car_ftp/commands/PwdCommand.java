@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import bc_om.car_ftp.log.ConsoleLogger;
+import bc_om.car_ftp.log.LogType;
 import bc_om.car_ftp.users.User;
 
 public class PwdCommand extends Command{
@@ -18,7 +20,7 @@ public class PwdCommand extends Command{
 		try {
 			super.dos.write(("257 /" + user.getCurrent_directory() + "\n").getBytes());
 		} catch (IOException e) {
-			System.out.println("[ERROR] Cannot send current directory to FTP Client");
+			ConsoleLogger.log(LogType.ERROR, "Cannot send current directory to FTP Client");
 		}
 	}
 
