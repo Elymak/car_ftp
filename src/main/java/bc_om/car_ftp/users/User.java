@@ -8,7 +8,7 @@ public class User {
 	public User(String login, String password){
 		this.login = login;
 		this.password = password;
-		this.current_directory = "/" + this.login;
+		this.current_directory = this.login;
 	}
 
 	public String getPassword() {

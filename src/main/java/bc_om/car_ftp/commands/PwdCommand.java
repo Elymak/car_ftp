@@ -1,7 +1,6 @@
 package bc_om.car_ftp.commands;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -17,7 +16,7 @@ public class PwdCommand extends Command{
 	@Override
 	public void execute() {
 		try {
-			super.dos.write(("257 " + user.getCurrent_directory() + "\n").getBytes());
+			super.dos.write(("257 /" + user.getCurrent_directory() + "\n").getBytes());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

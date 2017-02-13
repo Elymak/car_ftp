@@ -3,8 +3,6 @@ package bc_om.car_ftp.commands;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -22,19 +20,49 @@ public class ListCommand extends Command{
 	
 	@Override
 	public void execute() {
-		File directory = new File("data/root"+ super.user.getCurrent_directory());
+		String file = "";
+		
+		if(command !=  null){
+			if(!command.isEmpty() && !"LIST".equals(command))
+				file = command;
+		}
+			
+			
+		
+		File directory = new File("data/root/"+ user.getCurrent_directory() +"/"+ file);
 		System.out.println("[INFO] Listing directory : " + directory.getAbsolutePath());
 		try {
 			DataOutputStream output = new DataOutputStream(c.getData_socket().getOutputStream());
 			
-			String[] listFiles = directory.list();
-			StringBuilder builder = new StringBuilder();
+			File[] listFiles = directory.listFiles();
+			String res = "";
 			for(int i = 0; i < listFiles.length ;i++){
-				builder.append(listFiles[i] + "\r\n");
+				if(listFiles[i].isDirectory())
+					res += "d";
+				else
+					res += "-";
+				
+				if(listFiles[i].canRead())
+					res += "r";
+				else
+					res += "-";
+				
+				if(listFiles[i].canWrite())
+					res += "w";
+				else
+					res += "-";
+				
+				if(listFiles[i].canExecute())
+					res += "x";
+				else
+					res += "-";
+				
+				res += " " + listFiles[i].getName() + "\r\n";
 			}
 			
 			super.dos.write("150 Here comes the directory listing\n".getBytes());
-			output.write((builder.toString() + "\n").getBytes());
+			output.write((res).getBytes());
+			output.close();
 			super.dos.write("226 Directory send OK.\n".getBytes());
 			
 		} catch (IOException e1) {

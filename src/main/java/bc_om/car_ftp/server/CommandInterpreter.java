@@ -3,16 +3,13 @@ package bc_om.car_ftp.server;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.DatagramSocket;
 import java.net.Inet4Address;
-import java.net.Inet6Address;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import bc_om.car_ftp.commands.Command;
+import bc_om.car_ftp.commands.CwdCommand;
 import bc_om.car_ftp.commands.ListCommand;
 import bc_om.car_ftp.commands.NotImplementedCommand;
 import bc_om.car_ftp.commands.PasvCommand;
@@ -35,7 +32,6 @@ public class CommandInterpreter {
 	private User user;
 	
 	private BufferedReader br;
-	
 	private DataOutputStream dos;
 	
 	private Command command;
@@ -56,7 +52,6 @@ public class CommandInterpreter {
 			
 		}
 		
-		
 	}
 	
 	public void interpretCommand(String command) throws IOException{
@@ -68,11 +63,8 @@ public class CommandInterpreter {
 		String[] decomposed_command = command.split(" ");
 		switch(decomposed_command[0]){
 			case "ACCT":
-			case "CWD":
-			case "CDUP":
 			case "QUIT":
 			case "RETR":
-			case "STOR":
 			case "DELE":
 			case "MKD":
 				this.command = new NotImplementedCommand(command, user, socket, data_transport_socket);
@@ -84,13 +76,24 @@ public class CommandInterpreter {
 				this.command = new PortCommand(decomposed_command[1], user, socket, data_transport_socket, this);
 				break;
 			case "LIST":
-				this.command = new ListCommand(decomposed_command[0], user, socket, data_transport_socket, this);
+				if(decomposed_command.length > 1)
+					this.command = new ListCommand(decomposed_command[1], user, socket, data_transport_socket, this);
+				else
+					this.command = new ListCommand(decomposed_command[0], user, socket, data_transport_socket, this);
 				break;
 			case "PWD":
 				this.command = new PwdCommand(command, user, socket, data_transport_socket);
 				break;
 			case "PASV":
 				this.command = new PasvCommand(command, user, socket, data_transport_socket, this);
+				break;
+			case "STOR":
+				break;
+			case "CWD":
+				this.command = new CwdCommand(command, user, socket, data_transport_socket);
+				break;
+			case "CDUP":
+				this.command = new CwdCommand("CWD ..", user, socket, data_transport_socket);
 				break;
 			default:
 				break;

@@ -1,7 +1,6 @@
 package bc_om.car_ftp.commands;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -25,6 +24,12 @@ public class PortCommand extends Command{
 		String[] infos = super.command.split(",");
 		String addr = infos[0] +"." + infos[1] + "." +infos[2] +"." + infos[3];
 		int port = Integer.parseInt(infos[4]) * 256 + Integer.parseInt(infos[5]);
+		
+		try {
+			c.setData_socket(new Socket(addr, port));
+		} catch (IOException e2) {
+			System.out.println("[ERROR] Cannot connect to this address");
+		}
 		
 		c.setPort(port);
 		try {
