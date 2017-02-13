@@ -1,11 +1,11 @@
 package bc_om.car_ftp.users;
 
-public class User {
+public class User implements Comparable<User> {
 
 	private String login, password;
 	private String current_directory;
 	
-	public User(String login, String password){
+	public User(String login, String password) {
 		this.login = login;
 		this.password = password;
 		this.current_directory = this.login;
@@ -38,6 +38,14 @@ public class User {
 	public String toString(){
 		return "{" + login + ", " + password +"}";
 	}
-	
-	
+
+	public int compareTo(User user) {
+		int res;
+		if((res = this.login.compareTo(user.getLogin())) != 0)
+			return res;
+		if((res = this.password.compareTo(user.getPassword())) != 0)
+			return res;
+		return this.current_directory.compareTo(user.getCurrent_directory());
+	}
+
 }

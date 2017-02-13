@@ -10,5 +10,5 @@ public class DateParser {
 		String res = datetimeStr.substring(4, 7) + " " + datetimeStr.substring(8,10) + " " + datetimeStr.substring(datetimeStr.length() - 4, datetimeStr.length());
 		return res;
 	}
-
+	
 }

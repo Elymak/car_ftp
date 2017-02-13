@@ -12,7 +12,7 @@ import bc_om.car_ftp.users.User;
 public class CSVReader {
 
 	
-	private static final String CSV_FILE = "ressources/users.csv";
+	private static final String CSV_FILE = "src/main/resources/users.csv";
 	private static BufferedReader BR = null;
 	private static final String COMMA = ",";
 	
