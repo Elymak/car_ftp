@@ -99,6 +99,7 @@ public class CommandInterpreter {
 				break;
 		}
 		this.command.execute();
+		System.out.println("[LOG] --------------------------------");
 	}
 	
 	public void accept(){

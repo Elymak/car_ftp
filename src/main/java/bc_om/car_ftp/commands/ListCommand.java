@@ -21,6 +21,8 @@ public class ListCommand extends Command{
 	
 	@Override
 	public void execute() {
+		
+		
 		String file = "";
 		
 		if(command !=  null){
@@ -59,8 +61,8 @@ public class ListCommand extends Command{
 				String date = DateParser.getDateFormat(listFiles[i].lastModified());
 				
 				res += "------ " + listFiles[i].length() + " " + date + " " + listFiles[i].getName() + "\r\n";
-				System.out.println("[LOG] file : " + res);
 			}
+			System.out.println("[LOG] files : \n" + res);
 			
 			super.dos.write("150 Here comes the directory listing\n".getBytes());
 			output.write((res).getBytes());
