@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import bc_om.car_ftp.log.ConsoleLogger;
+import bc_om.car_ftp.log.LogType;
 import bc_om.car_ftp.users.User;
 
 /**
@@ -69,8 +71,7 @@ public abstract class Command {
 			this.dos = new DataOutputStream(s.getOutputStream());
 			
 		} catch (IOException e) {
-			System.out.println("[ERROR] Failed to get streams in command constructor");
-			
+			ConsoleLogger.log(LogType.ERROR, "Failed to get streams in command constructor");			
 		}
 	}
 	
