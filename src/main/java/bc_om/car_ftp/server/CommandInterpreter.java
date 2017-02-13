@@ -15,6 +15,8 @@ import bc_om.car_ftp.commands.NotImplementedCommand;
 import bc_om.car_ftp.commands.PasvCommand;
 import bc_om.car_ftp.commands.PortCommand;
 import bc_om.car_ftp.commands.PwdCommand;
+import bc_om.car_ftp.commands.RenameFileCommand;
+import bc_om.car_ftp.commands.StoreCommand;
 import bc_om.car_ftp.commands.SystCommand;
 import bc_om.car_ftp.users.User;
 
@@ -65,6 +67,7 @@ public class CommandInterpreter {
 			case "ACCT":
 			case "QUIT":
 			case "RETR":
+			case "TYPE":
 			case "DELE":
 			case "MKD":
 				this.command = new NotImplementedCommand(command, user, socket, data_transport_socket);
@@ -88,12 +91,16 @@ public class CommandInterpreter {
 				this.command = new PasvCommand(command, user, socket, data_transport_socket, this);
 				break;
 			case "STOR":
+				this.command = new StoreCommand(decomposed_command[1], user, socket, data_transport_socket, this);
 				break;
 			case "CWD":
 				this.command = new CwdCommand(command, user, socket, data_transport_socket);
 				break;
 			case "CDUP":
 				this.command = new CwdCommand("CWD ..", user, socket, data_transport_socket);
+				break;
+			case "RNTO":
+				this.command = new RenameFileCommand(decomposed_command[1], user, socket, data_transport_socket);
 				break;
 			default:
 				break;
