@@ -61,7 +61,7 @@ public class StoreCommand extends Command{
 			BufferedReader br = new BufferedReader(new InputStreamReader(ci.getData_socket().getInputStream()));
 			
 			/* pret à recevoir */
-			super.dos.write("125 \r\n".getBytes());
+			super.dos.write("125 Start Transfert\r\n".getBytes());
 			
 			/* on recoit la premiere ligne */
 			String s = br.readLine();
@@ -77,6 +77,7 @@ public class StoreCommand extends Command{
 			/* on ferme le fichier */
 			
 			pw.close();
+			br.close();
 			
 			/* transfert terminé */
 			super.dos.write("250 File Transfert complete\r\n".getBytes());
