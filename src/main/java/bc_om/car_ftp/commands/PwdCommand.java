@@ -18,8 +18,7 @@ public class PwdCommand extends Command{
 		try {
 			super.dos.write(("257 /" + user.getCurrent_directory() + "\n").getBytes());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("[ERROR] Cannot send current directory to FTP Client");
 		}
 	}
 

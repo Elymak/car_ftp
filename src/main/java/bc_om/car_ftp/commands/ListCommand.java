@@ -8,6 +8,7 @@ import java.net.Socket;
 
 import bc_om.car_ftp.server.CommandInterpreter;
 import bc_om.car_ftp.users.User;
+import bc_om.car_ftp.utils.DateParser;
 
 public class ListCommand extends Command{
 	
@@ -27,8 +28,6 @@ public class ListCommand extends Command{
 				file = command;
 		}
 			
-			
-		
 		File directory = new File("data/root/"+ user.getCurrent_directory() +"/"+ file);
 		System.out.println("[INFO] Listing directory : " + directory.getAbsolutePath());
 		try {
@@ -57,7 +56,10 @@ public class ListCommand extends Command{
 				else
 					res += "-";
 				
-				res += " " + listFiles[i].getName() + "\r\n";
+				String date = DateParser.getDateFormat(listFiles[i].lastModified());
+				
+				res += "------ " + listFiles[i].length() + " " + date + " " + listFiles[i].getName() + "\r\n";
+				System.out.println("[LOG] file : " + res);
 			}
 			
 			super.dos.write("150 Here comes the directory listing\n".getBytes());
@@ -66,8 +68,7 @@ public class ListCommand extends Command{
 			super.dos.write("226 Directory send OK.\n".getBytes());
 			
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			System.out.println("[ERROR] Cannot write in command flux for listing");
 		}
 	}
 

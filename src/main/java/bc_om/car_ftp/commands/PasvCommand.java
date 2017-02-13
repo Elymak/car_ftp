@@ -20,7 +20,6 @@ public class PasvCommand extends Command {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 		ci.setPassif(true);
 		try {
 			
@@ -32,7 +31,7 @@ public class PasvCommand extends Command {
 			ci.accept();
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("[ERROR] Cannot set passive mode");
 		}
 		
 		

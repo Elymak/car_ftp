@@ -33,8 +33,7 @@ public class Process extends Thread {
 		try {
 			this.data_transport_socket = new ServerSocket(0);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			System.out.println("[ERROR] Cannot create ServerSocket in Process constructor");
 		}
 		
 		this.users = CSVReader.getUsers();
@@ -123,8 +122,7 @@ public class Process extends Thread {
 					}
 				}
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				System.out.println("[ERROR] Cannot write 230");
 			}
 		}
 

@@ -29,6 +29,11 @@ public class PortCommand extends Command{
 			c.setData_socket(new Socket(addr, port));
 		} catch (IOException e2) {
 			System.out.println("[ERROR] Cannot connect to this address");
+			try {
+				super.dos.write("530 Session not opened\r\n".getBytes());
+			} catch (IOException e) {
+				System.out.println("[ERROR] Cannot send port command failure");
+			}
 		}
 		
 		c.setPort(port);

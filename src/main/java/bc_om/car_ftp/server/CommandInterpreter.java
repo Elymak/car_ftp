@@ -106,8 +106,7 @@ public class CommandInterpreter {
 			this.data_socket = data_transport_socket.accept();
 			System.out.println("[INFO] DataConnection established with user " + user.getLogin());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("[ERROR] Cannot accept connection with FTP CLient");
 		}
 	}
 
